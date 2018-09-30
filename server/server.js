@@ -2,7 +2,9 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var app = module.exports = loopback();
 
 app.get('/auth/account', function (req, res, next) {
@@ -46,6 +48,24 @@ try {
   process.exit(1);
 }
 // Initialize passport
+
+app.middleware('parse', bodyParser.json());
+// to support URL-encoded bodies
+app.middleware('parse', bodyParser.urlencoded({
+  extended: true,
+}));
+
+// The access token is only available after boot
+app.middleware('auth', loopback.token({
+  model: app.models.accessToken,
+}));
+
+app.middleware('session:before', cookieParser('secret_cookie'));
+app.middleware('session', session({
+  secret: 'kitty',
+  saveUninitialized: true,
+  resave: true,
+}));
 passportConfigurator.init();
 
 // Set up related models
