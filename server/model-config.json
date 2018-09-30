@@ -4,7 +4,8 @@
       "loopback/common/models",
       "loopback/server/models",
       "../common/models",
-      "./models"
+      "./models",
+      "../node_modules/loopback-component-passport/lib/models"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -34,5 +35,17 @@
   "Role": {
     "dataSource": "mongodb",
     "public": false
+  },
+  "ApplicationCredential": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "UserCredential": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "UserIdentity": {
+    "dataSource": "mongodb",
+    "public": true
   }
 }
