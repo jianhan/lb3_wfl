@@ -4,12 +4,13 @@ const loopback = require('loopback');
 const boot = require('loopback-boot');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const app = module.exports = loopback();
 const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+const authMiddleware = require('./middleware/auth')
 
-app.get('/auth/account', ensureLoggedIn('/login'), function (req, res, next) {
-  console.log(req.user)
+app.get('/auth/account', authMiddleware(), function (req, res, next) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(req.user));
 });
 
 app.start = function () {
