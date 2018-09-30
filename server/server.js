@@ -5,7 +5,6 @@ const boot = require('loopback-boot');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const app = module.exports = loopback();
-const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 const authMiddleware = require('./middleware/auth')
 
 app.get('/auth/account', authMiddleware(), function (req, res, next) {
@@ -55,12 +54,6 @@ app.middleware('auth', loopback.token({
   model: app.models.accessToken,
 }));
 
-app.middleware('session:before', cookieParser('secret_cookie'));
-app.middleware('session', session({
-  secret: 'kitty',
-  saveUninitialized: true,
-  resave: true,
-}));
 passportConfigurator.init(false);
 
 // Set up related models
