@@ -4,13 +4,13 @@
     "connector": "memory"
   },
   "mongodb": {
-    "host": "192.168.224.2",
-    "port": 27017,
+    "host": "${MONGODB_HOST}",
+    "port": "${MONGODB_PORT}",
     "url": "",
-    "database": "lb3_wfl",
-    "password": "",
+    "database": "${MONGODB_NAME}",
+    "password": "${MONGODB_PASSWORD}",
     "name": "mongodb",
-    "user": "",
+    "user": "${MONGODB_USER}",
     "connector": "mongodb"
   }
 }
