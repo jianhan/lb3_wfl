@@ -2,5 +2,15 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "mongodb": {
+    "host": "192.168.224.2",
+    "port": 27017,
+    "url": "",
+    "database": "lb3_wfl",
+    "password": "",
+    "name": "mongodb",
+    "user": "",
+    "connector": "mongodb"
   }
 }
