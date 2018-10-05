@@ -1,21 +1,30 @@
 'use strict';
 
+const authMiddleware = require('../middleware/auth');
+
 module.exports = (app) => {
   const User = app.models.User;
 
-  User.account = (cb) => {
-    cb(null, 'Greetings... test');
+  // define profile method 
+  User.profile = (req, cb) => {
+    cb(null, req.user, 'application/json');
   };
-
   User.remoteMethod(
-    'account', {
+    'profile', {
       returns: {
-        arg: 'greeting',
+        arg: 'profile',
         type: 'string',
       },
       http: {
-        verb: 'get'
+        verb: 'get',
       },
+      accepts: [{
+        arg: 'req',
+        type: 'object',
+        http: {
+          source: 'req',
+        },
+      }],
     }
   );
 };
