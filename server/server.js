@@ -2,19 +2,16 @@
 
 const loopback = require('loopback');
 const boot = require('loopback-boot');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
 const app = module.exports = loopback();
-const authMiddleware = require('./middleware/auth')
+const authMiddleware = require('./middleware/auth');
 
-app.get('/auth/account', authMiddleware(), function (req, res, next) {
+app.get('/user/account', authMiddleware(), (req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(req.user));
 });
 
-app.start = function () {
-  // start the web server
-  return app.listen(function () {
+app.start = () => {
+  return app.listen(() => {
     app.emit('started');
     const baseUrl = app.get('url').replace(/\/$/, '');
     console.log('Web server listening at: %s', baseUrl);
@@ -26,12 +23,12 @@ app.start = function () {
 };
 
 // Create an instance of PassportConfigurator with the app instance
-const PassportConfigurator = require('loopback-component-passport').PassportConfigurator;
-const passportConfigurator = new PassportConfigurator(app);
+let passportConfigurator = require('loopback-component-passport').PassportConfigurator;
+passportConfigurator = new passportConfigurator(app);
 
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
-boot(app, __dirname, function (err) {
+boot(app, __dirname, err => {
   if (err) throw err;
 
   // start the server if `$ node server.js`
@@ -54,14 +51,15 @@ app.middleware('auth', loopback.token({
   model: app.models.accessToken,
 }));
 
-passportConfigurator.init(false);
+passportConfigurator.init();
 
 // Set up related models
 passportConfigurator.setupModels({
   userModel: app.models.user,
   userIdentityModel: app.models.userIdentity,
-  userCredentialModel: app.models.userCredential
+  userCredentialModel: app.models.userCredential,
 });
+
 // Configure passport strategies for third party auth providers
 for (let s in config) {
   let c = config[s];
