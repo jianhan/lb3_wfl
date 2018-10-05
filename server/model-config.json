@@ -15,7 +15,13 @@
     ]
   },
   "User": {
-    "dataSource": "mongodb"
+    "dataSource": "mongodb",
+    "acls": [{
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "account"
+    }]
   },
   "AccessToken": {
     "dataSource": "mongodb",
