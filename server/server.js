@@ -5,9 +5,14 @@ const boot = require('loopback-boot');
 const app = module.exports = loopback();
 const authMiddleware = require('./middleware/auth');
 
-app.get('/user/account', authMiddleware(), (req, res, next) => {
+app.get('/user/profile', authMiddleware(), (req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(req.user));
+});
+
+app.get('/user/access_token', authMiddleware(), (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(req.accessToken));
 });
 
 app.start = () => {
@@ -45,11 +50,6 @@ try {
   console.error('Copy `providers.json.template` to `providers.json` and replace the clientID/clientSecret values with your own.');
   process.exit(1);
 }
-
-// The access token is only available after boot
-app.middleware('auth', loopback.token({
-  model: app.models.accessToken,
-}));
 
 passportConfigurator.init();
 

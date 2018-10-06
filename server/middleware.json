@@ -44,7 +44,13 @@
       "params": "${COOKIE_SECRET}"
     }
   },
-  "auth": {},
+  "auth": {
+    "loopback#token": {
+      "params": {
+        "model": "${accessToken}"
+      }
+    }
+  },
   "parse": {
     "body-parser#json": {},
     "body-parser#urlencoded": {

@@ -16,6 +16,9 @@
   },
   "User": {
     "dataSource": "mongodb",
+    "options": {
+         "strictObjectIDCoercion": true
+    },
     "acls": [{
       "permission": "ALLOW",
       "principalType": "ROLE",
@@ -29,7 +32,7 @@
   },
   "ACL": {
     "dataSource": "mongodb",
-    "public": false
+    "public": true
   },
   "RoleMapping": {
     "dataSource": "mongodb",
